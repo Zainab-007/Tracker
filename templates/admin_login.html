@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Login | Smart Internship Tracker</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'DM Sans',sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#1e1b4b 0%,#3730a3 100%);}
+    .card{background:#fff;border-radius:24px;padding:2.5rem;width:100%;max-width:400px;box-shadow:0 30px 80px rgba(0,0,0,0.25);}
+    .logo{text-align:center;font-size:2.5rem;margin-bottom:0.5rem;}
+    h1{font-family:'DM Serif Display',serif;font-size:1.6rem;text-align:center;color:#1e1b4b;margin-bottom:0.3rem;}
+    .sub{text-align:center;color:#64748b;font-size:0.9rem;margin-bottom:1.8rem;}
+    .admin-badge{display:inline-block;background:#fef3c7;color:#92400e;font-size:0.75rem;font-weight:700;padding:3px 10px;border-radius:20px;border:1px solid #fcd34d;margin-bottom:1.5rem;width:100%;text-align:center;}
+    .form-group{margin-bottom:1.2rem;}
+    label{display:block;font-weight:600;font-size:0.88rem;margin-bottom:0.4rem;color:#374151;}
+    input{width:100%;padding:0.75rem 1rem;border:2px solid #e5e7eb;border-radius:10px;font-size:1rem;font-family:'DM Sans',sans-serif;transition:border-color 0.2s;outline:none;}
+    input:focus{border-color:#4f46e5;}
+    .btn{width:100%;background:linear-gradient(135deg,#3730a3,#4f46e5);color:#fff;border:none;padding:0.85rem;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;transition:opacity 0.2s;}
+    .btn:hover{opacity:0.9;}
+    .error{background:#fee2e2;color:#b91c1c;border:1px solid #fca5a5;border-radius:8px;padding:0.7rem 1rem;font-size:0.88rem;margin-bottom:1rem;}
+    .back{text-align:center;margin-top:1.2rem;font-size:0.85rem;color:#94a3b8;}
+    .back a{color:#4f46e5;font-weight:600;text-decoration:none;}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="logo">🛡️</div>
+    <h1>Admin Panel</h1>
+    <p class="sub">Smart Internship Tracker</p>
+    <div class="admin-badge">⚠️ Restricted Access — Team Only</div>
+
+    {% if error %}
+    <div class="error">{{ error }}</div>
+    {% endif %}
+
+    <form method="POST" action="/admin/login">
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" name="username" placeholder="admin" required autofocus/>
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" name="password" placeholder="••••••••" required/>
+      </div>
+      <button type="submit" class="btn">Login to Admin Panel</button>
+    </form>
+    <p class="back"><a href="/login">← Back to Student Login</a></p>
+  </div>
+</body>
+</html>

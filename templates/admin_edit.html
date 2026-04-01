@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Edit Internship | Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'DM Sans',sans-serif;background:#f1f5f9;min-height:100vh;}
+    .navbar{background:#1e1b4b;padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;}
+    .nav-logo{color:#fff;font-family:'DM Serif Display',serif;font-size:1.2rem;}
+    .nav-links{display:flex;gap:1rem;align-items:center;}
+    .nav-links a{color:#a5b4fc;text-decoration:none;font-size:0.9rem;font-weight:500;padding:6px 14px;border-radius:8px;transition:background 0.2s;}
+    .nav-links a:hover{background:rgba(255,255,255,0.1);color:#fff;}
+    .logout{background:#dc2626 !important;color:#fff !important;}
+    .container{max-width:700px;margin:2rem auto;padding:0 1.5rem;}
+    .back{color:#4f46e5;text-decoration:none;font-weight:600;font-size:0.9rem;display:inline-block;margin-bottom:1.5rem;}
+    .card{background:#fff;border-radius:20px;padding:2.5rem;box-shadow:0 2px 16px rgba(0,0,0,0.06);}
+    h1{font-family:'DM Serif Display',serif;font-size:1.6rem;color:#1e1b4b;margin-bottom:0.3rem;}
+    .sub{color:#64748b;font-size:0.9rem;margin-bottom:2rem;}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+    .form-group{margin-bottom:1.2rem;}
+    label{display:block;font-weight:600;font-size:0.88rem;margin-bottom:0.4rem;color:#374151;}
+    input,select,textarea{width:100%;padding:0.75rem 1rem;border:2px solid #e5e7eb;border-radius:10px;font-size:0.95rem;font-family:'DM Sans',sans-serif;transition:border-color 0.2s;outline:none;color:#1e1b4b;}
+    input:focus,select:focus,textarea:focus{border-color:#4f46e5;}
+    textarea{height:120px;resize:vertical;}
+    .hint{font-size:0.78rem;color:#94a3b8;margin-top:0.3rem;}
+    .btn-save{background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;border:none;padding:0.85rem 2rem;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;transition:opacity 0.2s;}
+    .btn-save:hover{opacity:0.9;}
+    .btn-cancel{background:#f1f5f9;color:#374151;border:none;padding:0.85rem 2rem;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;text-decoration:none;display:inline-block;}
+    .divider{border:none;border-top:1px solid #f1f5f9;margin:1.5rem 0;}
+    .edit-badge{background:#fef9c3;color:#92400e;font-size:0.8rem;padding:4px 12px;border-radius:20px;font-weight:600;display:inline-block;margin-bottom:1rem;}
+    .actions{display:flex;gap:1rem;align-items:center;}
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-logo">🛡️ Admin Panel</div>
+    <div class="nav-links">
+      <a href="/admin/dashboard">Internships</a>
+      <a href="/admin/add">+ Add New</a>
+      <a href="/admin/stats">Stats</a>
+      <a href="/admin/logout" class="logout">Logout</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <a href="/admin/dashboard" class="back">← Back to Dashboard</a>
+
+    <div class="card">
+      <div class="edit-badge">✏️ Editing Internship #{{ internship[0] }}</div>
+      <h1>Edit Internship</h1>
+      <p class="sub">Update the details below and click Save Changes</p>
+
+      <form method="POST" action="/admin/edit/{{ internship[0] }}">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Job Title *</label>
+            <input type="text" name="title" value="{{ internship[1] }}" required/>
+          </div>
+          <div class="form-group">
+            <label>Company Name *</label>
+            <input type="text" name="company" value="{{ internship[2] }}" required/>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Description *</label>
+          <textarea name="description" required>{{ internship[3] }}</textarea>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Field / Domain *</label>
+            <select name="field" required>
+              <option value="">-- Select Field --</option>
+              {% for f in ['python','web','data science','machine learning','android','design','marketing','pharmacy','medical','arts','finance','hr','content','other'] %}
+              <option value="{{ f }}" {% if internship[4] == f %}selected{% endif %}>{{ f|title }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Stipend</label>
+            <input type="text" name="stipend" value="{{ internship[5] }}"/>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Application Deadline *</label>
+            <input type="date" name="deadline" value="{{ internship[6] }}" required/>
+          </div>
+          <div class="form-group">
+            <label>Apply Link *</label>
+            <input type="url" name="apply_link" value="{{ internship[7] }}" required/>
+          </div>
+        </div>
+
+        <hr class="divider"/>
+        <div class="actions">
+          <button type="submit" class="btn-save">💾 Save Changes</button>
+          <a href="/admin/dashboard" class="btn-cancel">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard | Smart Internship Tracker</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'DM Sans',sans-serif;background:#f1f5f9;min-height:100vh;}
+    .navbar{background:#1e1b4b;padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;}
+    .nav-logo{color:#fff;font-family:'DM Serif Display',serif;font-size:1.2rem;}
+    .nav-links{display:flex;gap:1rem;align-items:center;}
+    .nav-links a{color:#a5b4fc;text-decoration:none;font-size:0.9rem;font-weight:500;padding:6px 14px;border-radius:8px;transition:background 0.2s;}
+    .nav-links a:hover{background:rgba(255,255,255,0.1);color:#fff;}
+    .nav-links a.active{background:#4f46e5;color:#fff;}
+    .logout{background:#dc2626 !important;color:#fff !important;}
+    .container{max-width:1100px;margin:0 auto;padding:2rem 1.5rem;}
+    .page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;}
+    .page-header h1{font-family:'DM Serif Display',serif;font-size:1.8rem;color:#1e1b4b;}
+    .btn-add{background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;text-decoration:none;padding:0.7rem 1.5rem;border-radius:12px;font-weight:700;font-size:0.95rem;transition:opacity 0.2s;}
+    .btn-add:hover{opacity:0.9;}
+    .count-badge{background:#ede9fe;color:#4f46e5;font-size:0.85rem;padding:4px 12px;border-radius:20px;font-weight:600;margin-left:0.8rem;}
+    .table-wrap{background:#fff;border-radius:20px;box-shadow:0 2px 16px rgba(0,0,0,0.06);overflow:hidden;}
+    table{width:100%;border-collapse:collapse;}
+    thead tr{background:#1e1b4b;}
+    th{color:#fff;padding:1rem 1.2rem;text-align:left;font-size:0.88rem;font-weight:600;}
+    td{padding:0.9rem 1.2rem;border-bottom:1px solid #f1f5f9;font-size:0.9rem;color:#374151;vertical-align:middle;}
+    tr:last-child td{border-bottom:none;}
+    tr:hover td{background:#fafafa;}
+    .field-badge{background:#ede9fe;color:#6d28d9;padding:3px 10px;border-radius:20px;font-size:0.78rem;font-weight:600;}
+    .stipend{color:#16a34a;font-weight:600;}
+    .deadline{color:#dc2626;font-size:0.85rem;}
+    .actions{display:flex;gap:8px;}
+    .btn-edit{background:#dbeafe;color:#1d4ed8;border:none;padding:6px 14px;border-radius:8px;font-size:0.82rem;font-weight:600;text-decoration:none;transition:background 0.2s;}
+    .btn-edit:hover{background:#bfdbfe;}
+    .btn-delete{background:#fee2e2;color:#b91c1c;border:none;padding:6px 14px;border-radius:8px;font-size:0.82rem;font-weight:600;text-decoration:none;cursor:pointer;transition:background 0.2s;}
+    .btn-delete:hover{background:#fecaca;}
+    .empty{text-align:center;padding:3rem;color:#94a3b8;}
+    .title-cell{font-weight:600;color:#1e1b4b;max-width:180px;}
+    .desc-cell{color:#64748b;font-size:0.82rem;max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-logo">🛡️ Admin Panel</div>
+    <div class="nav-links">
+      <a href="/admin/dashboard" class="active">Internships</a>
+      <a href="/admin/add">+ Add New</a>
+      <a href="/admin/stats">Stats</a>
+      <a href="/admin/logout" class="logout">Logout</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="page-header">
+      <h1>All Internships <span class="count-badge">{{ internships|length }} total</span></h1>
+      <a href="/admin/add" class="btn-add">+ Add New Internship</a>
+    </div>
+
+    <div class="table-wrap">
+      {% if internships %}
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Title</th>
+            <th>Company</th>
+            <th>Field</th>
+            <th>Stipend</th>
+            <th>Deadline</th>
+            <th>Description</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for i in internships %}
+          <tr>
+            <td>{{ i[0] }}</td>
+            <td class="title-cell">{{ i[1] }}</td>
+            <td>{{ i[2] }}</td>
+            <td><span class="field-badge">{{ i[4] }}</span></td>
+            <td class="stipend">{{ i[5] }}</td>
+            <td class="deadline">{{ i[6] }}</td>
+            <td class="desc-cell">{{ i[3] }}</td>
+            <td>
+              <div class="actions">
+                <a href="/admin/edit/{{ i[0] }}" class="btn-edit">✏️ Edit</a>
+                <a href="/admin/delete/{{ i[0] }}" class="btn-delete"
+                   onclick="return confirm('Delete {{ i[1] }}? This cannot be undone.')">🗑️ Delete</a>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <div class="empty">
+        <p>No internships yet. <a href="/admin/add">Add your first one →</a></p>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</body>
+</html>
